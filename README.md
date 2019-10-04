@@ -1,10 +1,10 @@
 # Brobot
 My personal telegram bot
 
-![screenshot.png]
+![Screenshot](screenshot.png)
 
 ## Setup 
-* Create a 
+* Create a file `telegramtoken.txt` and put your [telegram Token](https://core.telegram.org/bots#3-how-do-i-create-a-bot) in it.
 
 ## To start on a raspberry pi 1 B+
 On the host:
