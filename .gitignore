@@ -1,1 +1,10 @@
+# Don't upload the token
 telegramtoken.txt
+
+# Ignore the binaries
+#brobot
+brobot.exe
+
+# Ignore automatic generated files from the OS
+.DS_Store
+desktop.ini
