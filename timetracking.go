@@ -133,14 +133,14 @@ func timeMessage(user string) (message string) {
 		// Check if it was from this week
 		workTime, err := time.Parse("02.01.2006 15:04:05", timeRaw)
 		if err != nil {
-
+			continue
 		}
 
 		nowTime := time.Now()
 		y1, w1 := workTime.ISOWeek()
 		y2, w2 := nowTime.ISOWeek()
 		if y1 == y2 && w1 == w2 {
-			totalHours += duration.Hours()
+			weekHours += duration.Hours()
 		}
 	}
 
