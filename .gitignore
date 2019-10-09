@@ -1,8 +1,10 @@
-# Don't upload the token
+# Don't upload the tokens
 telegramtoken.txt
+googlecredentials.json
+googletoken.json
 
 # Ignore the binaries
-#brobot
+brobot
 brobot.exe
 
 # Ignore automatic generated files from the OS
