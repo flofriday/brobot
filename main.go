@@ -115,6 +115,8 @@ func createAnswer(input *tgbotapi.Message) string {
 			return err.Error()
 		}
 		return "You are now unsubscibed from the daily feed."
+	} else if cmd == "mytime" {
+		return timeMessage()
 	} else if cmd == "help" || cmd == "start" {
 		bytes, _ := ioutil.ReadFile("commands.txt")
 		return string(bytes)

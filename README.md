@@ -5,6 +5,9 @@ My personal telegram bot
 
 ## Setup 
 * Create a file `telegramtoken.txt` and put your [telegram Token](https://core.telegram.org/bots#3-how-do-i-create-a-bot) in it.
+* You can not use the `/mytime` command but I can so here is the setup process for me:
+Create google credentials and save it as googlecredentials.json. Then start the bot and click
+the link in the terminal, follow the setup and paste the code into the terminal.
 
 ## To start on a raspberry pi 1 B+
 On the host:
