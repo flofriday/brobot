@@ -78,7 +78,7 @@ func saveToken(path string, token *oauth2.Token) {
 	json.NewEncoder(f).Encode(token)
 }
 
-func timeMessage(name string) (message string) {
+func timeMessage(user string) (message string) {
 	b, err := ioutil.ReadFile("googlecredentials.json")
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
@@ -117,7 +117,7 @@ func timeMessage(name string) (message string) {
 		durationRaw := fmt.Sprintf("%s", row[2])
 
 		// Filter only my edits
-		if (name != "Florian Freitag") {
+		if (name != user) {
 			continue
 		}
 
@@ -145,5 +145,5 @@ func timeMessage(name string) (message string) {
 	}
 
 	// Craft the message
-	return fmt.Sprintf("Total hours: %.1f\nWeek hours %.1f", totalHours, weekHours)
+	return fmt.Sprintf("*Time %s*\nTotal hours: %.1f\nWeek hours %.1f", user, totalHours, weekHours)
 }
