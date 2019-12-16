@@ -91,7 +91,7 @@ func (w *weather) load() {
 // Convert the weather data into a Markdown message
 func (w *weather) message() string {
 
-	msg := fmt.Sprintf("*%v %v*\nWeather: %v%v\nMin: %s°C\nMax: %s°C",
+	msg := fmt.Sprintf("*%v %v*\n%v %v\nMin: %s°C\nMax: %s°C",
 		w.City,
 		w.Date,
 		w.Weather,
