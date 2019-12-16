@@ -26,7 +26,7 @@ echo "Stoping the old bot ..."
 sshpass -p "$Password" ssh $Remote "sudo systemctl stop brobot;"
 
 echo "Uploading the new bot ..."
-sshpass -p "$Password" scp ./brobot $Remote:/home/pi/brobot/
+sshpass -p "$Password" scp ./brobot commands.txt $Remote:/home/pi/brobot/
 
 echo "Starting the new bot ..."
 sshpass -p "$Password" ssh $Remote "sudo systemctl daemon-reload; sudo systemctl start brobot;"
