@@ -1,0 +1,13 @@
+[Unit]
+Description=brobot Service
+After=network.target
+
+[Service]
+WorkingDirectory=/home/pi/brobot
+Type=simple
+User=pi
+ExecStart=/home/pi/brobot/brobot
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
