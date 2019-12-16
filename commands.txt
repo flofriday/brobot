@@ -1,5 +1,7 @@
-/weather - Get the weather for today in Vienna
+/weather - Get todays weather for Vienna
+/forecast - Get the weather forecast for Vienna
 /subscribe - Subscribe to the daily weather feed at 07:00
 /unsubscribe - Unsubscribe from the weather feed
 /botinfo - Information about the bot
 /screenfetch - Run screenfetch
+/help - View this help
