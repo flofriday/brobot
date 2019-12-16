@@ -115,11 +115,6 @@ func createAnswer(input *tgbotapi.Message) string {
 			return err.Error()
 		}
 		return "You are now unsubscibed from the daily feed."
-	} else if cmd == "mytime" {
-		if len(input.CommandArguments()) > 0 {
-			return timeMessage(input.CommandArguments())
-		}
-		return timeMessage("Florian Freitag")
 	} else if cmd == "help" || cmd == "start" {
 		bytes, _ := ioutil.ReadFile("commands.txt")
 		return string(bytes)
@@ -127,12 +122,12 @@ func createAnswer(input *tgbotapi.Message) string {
 		msg := fmt.Sprintf("Subscribed users: %v", len(clients))
 		return msg
 	} else if cmd == "screenfetch" {
-		bytes, err := exec.Command("screenfetch", "-N").Output()
+		bytes, err := exec.Command("screenfetch", "-N", "-n").Output()
 		var output string
 		if err != nil {
-			return ":sob: Sorry, but screenfetch is not installed"
+			return "😔 Sorry, but screenfetch is not installed"
 		}
-		output += ":computer: *Screenfetch:*\n```\n" + string(bytes) + "\n```"
+		output += "*Screenfetch:*\n```\n" + string(bytes) + "\n```"
 		return output
 
 	} else {
