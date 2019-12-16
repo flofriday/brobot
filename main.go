@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	clients    = []int64{}
+	clients    []int64
 	clientFile = "./clients.json"
 )
 
@@ -30,7 +30,7 @@ func loadClients() error {
 		return err
 	}
 
-	json.Unmarshal(byteValue, &clients)
+	_ = json.Unmarshal(byteValue, &clients)
 	return nil
 }
 
@@ -87,7 +87,7 @@ func sendWeather(bot *tgbotapi.BotAPI) {
 		w.load()
 		msg := tgbotapi.NewMessage(client, w.message())
 		msg.ParseMode = "Markdown"
-		bot.Send(msg)
+		_, _ = bot.Send(msg)
 	}
 }
 
@@ -103,24 +103,34 @@ func createAnswer(input *tgbotapi.Message) string {
 		var w weather
 		w.load()
 		return w.message()
+
+	} else if cmd == "forecast" {
+		var f forecast
+		f.load()
+		return f.message()
+
 	} else if cmd == "subscribe" {
 		err := addClient(input.Chat.ID)
 		if err != nil {
 			return err.Error()
 		}
 		return "You are now subscibed to the daily weather feed at 07:00."
+
 	} else if cmd == "unsubscribe" {
 		err := removeClient(input.Chat.ID)
 		if err != nil {
 			return err.Error()
 		}
 		return "You are now unsubscibed from the daily feed."
+
 	} else if cmd == "help" || cmd == "start" {
 		bytes, _ := ioutil.ReadFile("commands.txt")
 		return string(bytes)
+
 	} else if cmd == "botinfo" {
 		msg := fmt.Sprintf("Subscribed users: %v", len(clients))
 		return msg
+
 	} else if cmd == "screenfetch" {
 		bytes, err := exec.Command("screenfetch", "-N", "-n").Output()
 		var output string
@@ -151,7 +161,7 @@ func main() {
 
 	updates, err := bot.GetUpdatesChan(u)
 
-	loadClients()
+	_ = loadClients()
 
 	go background(bot)
 
@@ -164,6 +174,6 @@ func main() {
 
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, createAnswer(update.Message))
 		msg.ParseMode = "Markdown"
-		bot.Send(msg)
+		_, _ = bot.Send(msg)
 	}
 }
