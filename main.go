@@ -114,14 +114,14 @@ func createAnswer(input *tgbotapi.Message) string {
 		if err != nil {
 			return err.Error()
 		}
-		return "You are now subscibed to the daily weather feed at 07:00."
+		return "You are now subscribed to the daily weather feed at 07:00."
 
 	} else if cmd == "unsubscribe" {
 		err := removeClient(input.Chat.ID)
 		if err != nil {
 			return err.Error()
 		}
-		return "You are now unsubscibed from the daily feed."
+		return "You are now unsubscribed from the daily feed."
 
 	} else if cmd == "help" || cmd == "start" {
 		bytes, _ := ioutil.ReadFile("commands.txt")
@@ -132,7 +132,7 @@ func createAnswer(input *tgbotapi.Message) string {
 		return msg
 
 	} else if cmd == "screenfetch" {
-		bytes, err := exec.Command("screenfetch", "-N", "-n").Output()
+		bytes, err := exec.Command("screenfetch", "-N", "-p", "-E").Output()
 		var output string
 		if err != nil {
 			return "😔 Sorry, but screenfetch is not installed"
@@ -141,7 +141,7 @@ func createAnswer(input *tgbotapi.Message) string {
 		return output
 
 	} else {
-		return "Sry I don't understand that command. /help for more inforamtion."
+		return "Sry I don't understand that command. /help for more information."
 	}
 }
 
