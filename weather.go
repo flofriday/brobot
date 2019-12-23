@@ -19,20 +19,20 @@ type weather struct {
 	Date        string
 }
 
-// Convert the weatherCode form the API into easy humanli readable emojis
+// Convert the weatherCode form the API into easy human readable emojis
 func weatherCodeToEmoji(weatherCode string) string {
 	switch weatherCode {
 	case "sn":
 		return "🌨"
 	case "sl":
-		return "🌧🌨"
+		return "🌨"
 	case "h":
 		return "🌨"
 	case "t":
 		return "⛈"
 	case "hr":
 		return "🌧"
-	case "hl":
+	case "lr":
 		return "🌧"
 	case "s":
 		return "🌦"
