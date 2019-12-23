@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math"
 	"net/http"
 	"strconv"
 	"time"
@@ -96,8 +97,8 @@ func (w *weather) message() string {
 		w.Date,
 		w.Weather,
 		w.Emoji,
-		strconv.FormatFloat(w.MinTemp, 'f', 1, 32),
-		strconv.FormatFloat(w.MaxTemp, 'f', 1, 32),
+		strconv.FormatFloat(math.Round(w.MinTemp), 'f', 0, 32),
+		strconv.FormatFloat(math.Round(w.MaxTemp), 'f', 0, 32),
 	)
 
 	return msg
@@ -146,7 +147,7 @@ func (f *forecast) message() string {
 	for i, day := range f.days {
 		dayText := ""
 		if i == 0 {
-			dayText = "today"
+			dayText = "Today"
 		} else {
 			t, _ := time.Parse("2006-01-02", day.Date)
 			dayText = t.Weekday().String()[:3]
@@ -156,8 +157,8 @@ func (f *forecast) message() string {
 			dayText,
 			day.Emoji,
 			day.Weather,
-			strconv.FormatFloat(day.MinTemp, 'f', 1, 32),
-			strconv.FormatFloat(day.MaxTemp, 'f', 1, 32),
+			strconv.FormatFloat(math.Round(day.MinTemp), 'f', 0, 32),
+			strconv.FormatFloat(math.Round(day.MaxTemp), 'f', 0, 32),
 		)
 	}
 
