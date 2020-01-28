@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"math"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/valyala/fastjson"
@@ -92,13 +91,13 @@ func (w *weather) load() {
 // Convert the weather data into a Markdown message
 func (w *weather) message() string {
 
-	msg := fmt.Sprintf("*%v %v*\n%v %v\nMin: %s°C\nMax: %s°C",
+	msg := fmt.Sprintf("*%v %v*\n%v %v\nMin: %v°C\nMax: %v°C",
 		w.City,
 		w.Date,
 		w.Weather,
 		w.Emoji,
-		strconv.FormatFloat(math.Round(w.MinTemp), 'f', 0, 32),
-		strconv.FormatFloat(math.Round(w.MaxTemp), 'f', 0, 32),
+		int(math.Round(w.MinTemp)),
+		int(math.Round(w.MaxTemp)),
 	)
 
 	return msg
@@ -153,12 +152,12 @@ func (f *forecast) message() string {
 			dayText = t.Weekday().String()[:3]
 		}
 
-		msg += fmt.Sprintf("*%v* %v %v %v°C *-* %v°C\n",
+		msg += fmt.Sprintf("*%v* %v %v %v°C | %v°C\n",
 			dayText,
 			day.Emoji,
 			day.Weather,
-			strconv.FormatFloat(math.Round(day.MinTemp), 'f', 0, 32),
-			strconv.FormatFloat(math.Round(day.MaxTemp), 'f', 0, 32),
+			int(math.Round(day.MinTemp)),
+			int(math.Round(day.MaxTemp)),
 		)
 	}
 
