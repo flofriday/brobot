@@ -1,0 +1,26 @@
+stages:
+  - test
+  - build
+  - deploy
+
+format:
+  stage: test
+  tags: docker
+  image: golang:alpine
+  script:
+    - go fmt $(go list ./... | grep -v /vendor/)
+    - go vet $(go list ./... | grep -v /vendor/)
+    - go test -race $(go list ./... | grep -v /vendor/)
+
+compile:
+  stage: build
+  tags: shell
+  script: echo "building"
+    
+run:
+  stage: deploy
+  tags: shell
+  script: echo "production"
+  environment:
+    name: production
+  only: master
