@@ -131,13 +131,13 @@ func createAnswer(input *tgbotapi.Message) string {
 		msg := fmt.Sprintf("Subscribed users: %v", len(clients))
 		return msg
 
-	} else if cmd == "screenfetch" {
-		bytes, err := exec.Command("screenfetch", "-N", "-p", "-E").Output()
+	} else if cmd == "screenfetch" || cmd == "neofetch" {
+		bytes, err := exec.Command("neofetch", "--stdout").Output()
 		var output string
 		if err != nil {
-			return "😔 Sorry, but screenfetch is not installed"
+			return "😔 Sorry, but neofetch is not installed"
 		}
-		output += "*Screenfetch:*\n```\n" + string(bytes) + "\n```"
+		output += "*Neofetch:*\n```\n" + string(bytes) + "\n```"
 		return output
 
 	} else {
