@@ -3,15 +3,16 @@ stages:
   - build
   - deploy
 
-format:
-  stage: test
-  tags: 
-    - docker
-  image: golang:1.13.5-alpine
-  script:
-    - go fmt
-    - go vet
-    - go test
+# TODO: add back in
+#format:
+#  stage: test
+#  tags:
+#    - docker
+#  image: golang:1.13.5-alpine
+#  script:
+#    - go fmt
+#    - go vet
+#    - go test
 
 compile:
   stage: build
