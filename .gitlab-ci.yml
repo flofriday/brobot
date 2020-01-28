@@ -17,13 +17,19 @@ compile:
   stage: build
   tags: 
     - shell
-  script: echo "building"
+  script: docker build -t brobot-template .
     
 run:
   stage: deploy
   tags: 
     - shell
-  script: echo "production"
+  script:
+    - echo -e "docker stop brobot-container\nexit 0" | bash
+    - >
+      docker run -d --restart unless-stopped
+      -e TELEGRAM_TOKEN $TELEGRAM_TOKEN
+      -- mount source=brobot-volume, target=/data
+      -- name brobot-container brobot-template
   environment:
     name: production
   only: 

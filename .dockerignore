@@ -1,0 +1,2 @@
+# Don't copy the state of the repository to in the docker container
+.clients.json

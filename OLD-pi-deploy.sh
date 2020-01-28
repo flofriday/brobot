@@ -1,3 +1,9 @@
+# WARNING
+# This script is DEPRICATED and no longer used.
+# Look at deploy.md for more information.
+
+#----------------------------------------
+
 # This script deploys the current version the the pi.
 # Therefore it compiles the bot and then logs into the pi via ssh and swaps the old for the new bot.
 # This script only works for the Raspberry Pi 1 B+. To adapt it to other targets you need to modify the the build

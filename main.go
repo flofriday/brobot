@@ -15,7 +15,7 @@ import (
 
 var (
 	clients    []int64
-	clientFile = "./clients.json"
+	clientFile = "./data/clients.json"
 )
 
 func loadClients() error {
@@ -147,8 +147,17 @@ func createAnswer(input *tgbotapi.Message) string {
 
 func main() {
 	// Load the token
-	token, _ := ioutil.ReadFile("telegramtoken.txt")
+	token := os.Getenv("TELEGRAM_TOKEN")
 
+	// Check if there is a token
+	if token == "" {
+		log.Println("ERROR: Telegram Token missing")
+		log.Println("You need to specify a token for telegram.")
+		log.Println("example: TELEGRAM_TOKEN=t0k3n ./brobot")
+		return
+	}
+
+	// Register the bot at telegram
 	bot, err := tgbotapi.NewBotAPI(string(token))
 	if err != nil {
 		log.Panic(err)
@@ -172,6 +181,8 @@ func main() {
 
 		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
+		// TODO: this API is a mess, fix it
+		// TODO: Also make this run in parallel, there is no need for this to be blocking
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, createAnswer(update.Message))
 		msg.ParseMode = "Markdown"
 		_, _ = bot.Send(msg)
