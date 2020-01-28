@@ -1,7 +1,5 @@
-# Don't upload the tokens
-telegramtoken.txt
-googlecredentials.json
-googletoken.json
+# Don't upload the development tokens
+.env
 
 # Ignore the binaries
 brobot
