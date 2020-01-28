@@ -5,7 +5,7 @@ FROM golang:1.13.5-alpine
 RUN apk add git neofetch
 
 # Copy files into the container and download dependencies
-#WORKDIR /app
+WORKDIR /app
 
 COPY go.mod .
 COPY go.sum .

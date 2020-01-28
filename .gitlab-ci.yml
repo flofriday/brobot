@@ -16,7 +16,7 @@ run:
     - >
       docker run -d --rm --restart unless-stopped
       --env TELEGRAM_TOKEN=$TELEGRAM_TOKEN
-      --mount type=volume,source=brobot-volume,target=/data
+      --mount type=volume,source=brobot-volume,target=/app/data
       --name brobot-container brobot-template
   environment:
     name: production
