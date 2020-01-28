@@ -24,6 +24,8 @@ run:
   stage: deploy
   tags: 
     - shell
+  before_script:
+    - docker info
   script:
     - echo -e "docker stop brobot-container\nexit 0" | bash
     - >
