@@ -8,8 +8,6 @@ compile:
     
 run:
   stage: deploy
-  before_script:
-    - docker info
   script:
     - echo -e "docker stop brobot-container\nexit 0" | bash
     - echo -e "docker rm brobot-container\nexit 0" | bash

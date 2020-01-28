@@ -10,6 +10,13 @@ import (
 	"github.com/valyala/fastjson"
 )
 
+var weatherCache cache
+
+type cache struct {
+	data []byte
+	created time.Time
+}
+
 type weather struct {
 	MinTemp     float64
 	MaxTemp     float64
@@ -49,6 +56,13 @@ func weatherCodeToEmoji(weatherCode string) string {
 
 // Make a request to the api and return the body of the response
 func requestData() ([]byte, error) {
+	// Check if the cache is fresh enough (15 min)
+	if time.Since(weatherCache.created) < time.Minute * 15 {
+		// Cache is still warm, so we will use that
+		return weatherCache.data, nil
+	}
+
+	// Since there is no valid cache, lets download the data from the internet
 	resp, err := http.Get("https://www.metaweather.com/api/location/551801/")
 	if err != nil {
 		fmt.Println(err)
@@ -62,6 +76,13 @@ func requestData() ([]byte, error) {
 		return nil, err
 	}
 
+	// Update the cache for the next time
+	weatherCache = cache{
+		data:    body,
+		created: time.Now(),
+	}
+
+	// return the data
 	return body, nil
 }
 

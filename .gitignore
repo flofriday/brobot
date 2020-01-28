@@ -8,3 +8,6 @@ brobot.exe
 # Ignore automatic generated files from the OS
 .DS_Store
 desktop.ini
+
+# Ignore Goland files
+.idea

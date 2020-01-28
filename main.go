@@ -82,10 +82,14 @@ func removeClient(id int64) error {
 }
 
 func sendWeather(bot *tgbotapi.BotAPI) {
+	// Load the weather
+	var w weather
+	w.load()
+	text := w.message()
+
+	// Send the weather to every client
 	for _, client := range clients {
-		var w weather
-		w.load()
-		msg := tgbotapi.NewMessage(client, w.message())
+		msg := tgbotapi.NewMessage(client, text)
 		msg.ParseMode = "Markdown"
 		_, _ = bot.Send(msg)
 	}
