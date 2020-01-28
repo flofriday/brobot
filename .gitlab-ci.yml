@@ -16,14 +16,14 @@ stages:
 
 compile:
   stage: build
-  tags: 
-    - shell
+#  tags: 
+#    - shell
   script: docker build -t brobot-template .
     
 run:
   stage: deploy
-  tags: 
-    - shell
+#  tags: 
+#    - shell
   before_script:
     - docker info
   script:
