@@ -5,25 +5,31 @@ import (
 	"io/ioutil"
 	"math"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/valyala/fastjson"
 )
 
+// 2 Global variables for the cache
 var weatherCache cache
+var cacheMutex = &sync.Mutex{}
 
+// A very simple cache that can save a byte array (like a http response body)
 type cache struct {
-	data []byte
+	data    []byte
 	created time.Time
 }
 
 type weather struct {
-	MinTemp     float64
-	MaxTemp     float64
-	Weather     string
-	Emoji 		string
-	City        string
-	Date        string
+	MinTemp float64
+	MaxTemp float64
+	Weather string
+	Emoji   string
+	City    string
+	Date    time.Time
+	SunSet  time.Time
+	SunRise time.Time
 }
 
 // Convert the weatherCode form the API into easy human readable emojis
@@ -55,9 +61,15 @@ func weatherCodeToEmoji(weatherCode string) string {
 }
 
 // Make a request to the api and return the body of the response
+// This function is really fast, since it uses a cache to store the http response from the API for 15minutes
+//
 func requestData() ([]byte, error) {
+	// Lock the cache for the lifetime of this function
+	cacheMutex.Lock()
+	defer cacheMutex.Unlock()
+
 	// Check if the cache is fresh enough (15 min)
-	if time.Since(weatherCache.created) < time.Minute * 15 {
+	if time.Since(weatherCache.created) < time.Minute*15 {
 		// Cache is still warm, so we will use that
 		return weatherCache.data, nil
 	}
@@ -103,22 +115,26 @@ func (w *weather) load() {
 
 	w.MinTemp = data.GetFloat64("consolidated_weather", "0", "min_temp")
 	w.MaxTemp = data.GetFloat64("consolidated_weather", "0", "max_temp")
+	w.SunRise, err = time.Parse(time.RFC3339Nano, string(data.GetStringBytes("sun_rise")))
+	w.SunSet, _ = time.Parse(time.RFC3339Nano, string(data.GetStringBytes("sun_set")))
 	w.Weather = string(data.GetStringBytes("consolidated_weather", "0", "weather_state_name"))
 	w.Emoji = weatherCodeToEmoji(string(data.GetStringBytes("consolidated_weather", "0", "weather_state_abbr")))
-	w.Date = string(data.GetStringBytes("consolidated_weather", "0", "applicable_date"))
+	w.Date, _ = time.Parse("2006-01-02", string(data.GetStringBytes("consolidated_weather", "0", "applicable_date")))
 	w.City = string(data.GetStringBytes("title"))
 }
 
 // Convert the weather data into a Markdown message
 func (w *weather) message() string {
 
-	msg := fmt.Sprintf("*%v %v*\n%v %v\nMin: %v°C\nMax: %v°C",
+	msg := fmt.Sprintf("*%v %v*\n%v %v\nMin: %v°C\nMax: %v°C\nDaylight: %s - %s",
 		w.City,
-		w.Date,
+		w.Date.Format("02.01.2006"),
 		w.Weather,
 		w.Emoji,
 		int(math.Round(w.MinTemp)),
 		int(math.Round(w.MaxTemp)),
+		w.SunRise.Format("15:04"),
+		w.SunSet.Format("15:04"),
 	)
 
 	return msg
@@ -150,9 +166,9 @@ func (f *forecast) load() {
 
 		w.MinTemp = d.GetFloat64("min_temp")
 		w.MaxTemp = d.GetFloat64("max_temp")
-		w.Weather = string(d.GetStringBytes( "weather_state_name"))
-		w.Emoji = weatherCodeToEmoji(string(d.GetStringBytes( "weather_state_abbr")))
-		w.Date = string(d.GetStringBytes( "applicable_date"))
+		w.Weather = string(d.GetStringBytes("weather_state_name"))
+		w.Emoji = weatherCodeToEmoji(string(d.GetStringBytes("weather_state_abbr")))
+		w.Date, _ = time.Parse("2006-01-02", string(d.GetStringBytes("applicable_date")))
 		w.City = string(data.GetStringBytes("title"))
 
 		f.days = append(f.days, w)
@@ -169,8 +185,7 @@ func (f *forecast) message() string {
 		if i == 0 {
 			dayText = "Today"
 		} else {
-			t, _ := time.Parse("2006-01-02", day.Date)
-			dayText = t.Weekday().String()[:3]
+			dayText = day.Date.Weekday().String()[:3]
 		}
 
 		msg += fmt.Sprintf("*%v* %v %v %v°C | %v°C\n",
