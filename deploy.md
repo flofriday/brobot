@@ -14,5 +14,4 @@ GitLab CI/CD.
 curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
 sudo apt-get install gitlab-runner
 ```
-3. Register 2 GitLab Runners
-4. Setup Gitlab
+3. Register a GitLab Runner (Make sure that you use the shell executor and no tags)
