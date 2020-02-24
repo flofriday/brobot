@@ -9,9 +9,11 @@ GitLab CI/CD.
 ## Steps
 1. Install Docker
 `curl -sSL https://get.docker.com | sh`
-2. Install Gitlab Runner
+2. Create a docker volume for the container to use
+`docker volume create brobot-volume`
+3. Install Gitlab Runner
 ```
 curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
 sudo apt-get install gitlab-runner
 ```
-3. Register a GitLab Runner (Make sure that you use the shell executor and no tags)
+4. Register a GitLab Runner (Make sure that you use the shell executor and no tags)
