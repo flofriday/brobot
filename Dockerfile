@@ -1,5 +1,5 @@
 # BUILD stage
-FROM golang:1.13.5-alpine
+FROM golang:1.13.8-alpine
 
 # Install git for go download
 RUN apk add git neofetch
