@@ -1,2 +1,21 @@
 # Don't copy the state of the repository to in the docker container
-.clients.json
+data
+
+# Don't copy unneeded files
+.doockerignore
+.gitignore
+.gitlab-ci.yml
+brobot.service
+deploy.md
+Dockerfile
+LICENSE
+OLD-pi-deploy.sh
+README.md
+screenshot.png
+
+# Also ignore many common development files
+# (You may not have those because they are excluded from the git repository)
+.idea
+.env
+brobot
+brobot.exe
