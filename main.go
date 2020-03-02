@@ -96,7 +96,7 @@ func sendWeather(bot *tgbotapi.BotAPI) {
 }
 
 func background(bot *tgbotapi.BotAPI) {
-	gocron.Every(1).Day().At("7:00").Do(func() { sendWeather(bot) })
+	gocron.Every(1).Day().At("6:00").Do(func() { sendWeather(bot) })
 	<-gocron.Start()
 }
 
