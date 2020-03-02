@@ -12,8 +12,7 @@ date
 # Copy files into the container and download dependencies
 WORKDIR /app
 
-COPY go.mod .
-COPY go.sum .
+COPY go.mod go.sum .
 
 RUN go mod download
 
