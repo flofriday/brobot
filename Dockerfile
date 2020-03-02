@@ -2,7 +2,10 @@
 FROM golang:1.13.8-alpine
 
 # Install git for go download
-RUN apk add git neofetch
+RUN apk add git neofetch tzdata
+
+# Set the timezone to europe
+RUN echo "Europe/Berlin" >  /etc/timezone
 
 # Copy files into the container and download dependencies
 WORKDIR /app
