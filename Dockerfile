@@ -5,7 +5,9 @@ FROM golang:1.13.8-alpine
 RUN apk add git neofetch tzdata
 
 # Set the timezone to europe
+RUN cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 RUN echo "Europe/Berlin" >  /etc/timezone
+RUN date
 
 # Copy files into the container and download dependencies
 WORKDIR /app
