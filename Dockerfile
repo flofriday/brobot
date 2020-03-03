@@ -1,5 +1,5 @@
 # BUILD stage
-FROM golang:1.13.8-alpine
+FROM golang:1.14-alpine
 
 # Install git for go download
 RUN apk add git neofetch tzdata
