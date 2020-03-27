@@ -152,6 +152,12 @@ func subscribeCmd(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
 		return
 	}
 
+	// Tell the user he is already subscribed
+	if u.WeatherSubscribed {
+		sendMessage(bot, update, "Hawara, you are already subscribed 😂")
+		return
+	}
+
 	// Update the user
 	err = u.setWeatherSubscribed(true)
 	if err != nil {
@@ -169,6 +175,12 @@ func unsubscribeCmd(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
 	u, err := loadUser(update.Message.Chat.ID)
 	if err != nil {
 		sendMessage(bot, update, "Internal Error - unable to load the user\n"+err.Error())
+		return
+	}
+
+	// Tell the user he is already subscribed
+	if u.WeatherSubscribed {
+		sendMessage(bot, update, "Hawara, you aren't even subscribed 😂")
 		return
 	}
 
