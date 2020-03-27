@@ -57,7 +57,8 @@ func main() {
 		}
 
 		// Call the handle message concurrently so the execution of one command cannot block another one
-		go handleMessage(bot, &update)
+		up := update
+		go handleMessage(bot, &up)
 	}
 }
 
