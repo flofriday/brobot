@@ -1,5 +1,10 @@
 # Don't upload the development tokens
 .env
+start.sh
+
+# Don't update the data
+data
+data.db
 
 # Ignore the binaries
 brobot

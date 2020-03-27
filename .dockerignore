@@ -6,6 +6,7 @@ data
 .gitignore
 .gitlab-ci.yml
 brobot.service
+data.db
 deploy.md
 Dockerfile
 LICENSE
