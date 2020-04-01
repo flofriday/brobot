@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	bolt "go.etcd.io/bbolt"
 	"log"
 	"strconv"
@@ -73,6 +74,24 @@ func createUser(telegramID int64) (user, error) {
 
 	err := u.update()
 	return u, err
+}
+
+func deleteUser(telegramID int64) error {
+	log.Printf("Deleting user: [%d]", telegramID)
+
+	err := DB.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte("Users"))
+
+		// Check if the user even existed
+		if b.Get([]byte(strconv.FormatInt(telegramID, 10))) == nil {
+			return errors.New("cannot delete a user that does not exist")
+		}
+
+		err := b.Delete([]byte(strconv.FormatInt(telegramID, 10)))
+		return err
+	})
+
+	return err
 }
 
 func loadSubscribedUsers() []user {

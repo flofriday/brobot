@@ -50,12 +50,16 @@ func handleMessage(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
 		subscribeCmd(bot, update)
 	case "unsubscribe":
 		unsubscribeCmd(bot, update)
+	case "deleteme":
+		deleteMeCmd(bot, update)
 	case "help":
 		helpCmd(bot, update)
 	case "start":
 		helpCmd(bot, update)
 	case "botinfo":
 		botinfoCmd(bot, update)
+	case "privacy":
+		privacyCmd(bot, update)
 	case "screenfetch":
 		screenfetchCmd(bot, update)
 	default:
@@ -179,7 +183,7 @@ func unsubscribeCmd(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
 	}
 
 	// Tell the user he is already subscribed
-	if u.WeatherSubscribed {
+	if !u.WeatherSubscribed {
 		sendMessage(bot, update, "Hawara, you aren't even subscribed 😂")
 		return
 	}
@@ -196,9 +200,39 @@ func unsubscribeCmd(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
 	sendMessage(bot, update, message)
 }
 
+func deleteMeCmd(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
+	// Try to delete the user
+	err := deleteUser(update.Message.Chat.ID)
+	if err != nil {
+		sendMessage(bot, update, "Internal Error - unable to update the user\n"+err.Error())
+		return
+	}
+
+	message := "*Deleted 🗑*\nAll your user data is now deleted, however the bot will create new data, " +
+		"if you use one of the following commands:\n" +
+		"/weather\n/forecast\n/setlocation\n/subscribe\n/unsubscribe"
+	sendMessage(bot, update, message)
+}
+
 func helpCmd(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
 	commands, _ := ioutil.ReadFile("commands.txt")
-	message := fmt.Sprintf("☺️ Here is a list of things I can do:\n%s\n\nI am activly developed by [flofriday](https://github.com/flofriday) as opensource software on [GitHub](https://github.com/flofriday/brobot) and [GitLab](https://gitlab.com/flofriday/brobot).", string(commands))
+	message := fmt.Sprintf("*Here is a list of things I can do 😊:*\n%s\n\nI am activly developed by [flofriday](https://github.com/flofriday) as opensource software on [GitHub](https://github.com/flofriday/brobot) and [GitLab](https://gitlab.com/flofriday/brobot).", string(commands))
+	sendMessage(bot, update, message)
+}
+
+func privacyCmd(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
+	message := "*Privacy*\n" +
+		"Unfortunately, this bot saves some user data. However, I try to keep the data as small as possible." +
+		"At the moment the bot saves exactly three datapoints with every user:\n" +
+		"1.	Telegram id: This is used so that the bot knows who is talking to it. " +
+		"However, neither I (the developer) nor a potential hacker can use this to contact or harass you.\n" +
+		"2.	The location you selected for your weather update. " +
+		"By default, this is set to Vienna, but you can change it with the /setLocation command.\n" +
+		"3.	Whether or not you are subscribed. " +
+		"This is used to determine if you would like a daily weather update at 6am CET.\n\n" +
+		"Moreover, I promise you that I will never sell or license this data to anyone, " +
+		"or try to gain a financial advantage from it."
+
 	sendMessage(bot, update, message)
 }
 

@@ -1,8 +1,10 @@
 /weather - Get todays weather
 /forecast - Get the weather forecast
 /setlocation - Set the location for the weather
-/subscribe - Subscribe to the daily weather feed at 06:00
+/subscribe - Subscribe to the daily weather feed at 6am CET
 /unsubscribe - Unsubscribe from the weather feed
+/deleteme - Delete all your saved userdata
 /botinfo - Information about the bot
 /screenfetch - Run screenfetch
+/privacy - How this bot uses your data
 /help - View this help
