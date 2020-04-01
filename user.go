@@ -103,9 +103,10 @@ func loadSubscribedUsers() []user {
 }
 
 // This function returns the number of users and subscribed users
-func loadUserStatistics() (int, int) {
+func loadUserStatistics() (int, int, int) {
 	total := 0
 	subscribed := 0
+	locations := make(map[int64]int)
 
 	DB.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte("Users"))
@@ -121,6 +122,7 @@ func loadUserStatistics() (int, int) {
 			}
 
 			total++
+			locations[u.Location] += 1
 			// Check if the user is subscribed and if so add it to the list of subbscribed users
 			if u.WeatherSubscribed == true {
 				subscribed++
@@ -130,5 +132,5 @@ func loadUserStatistics() (int, int) {
 		return nil
 	})
 
-	return total, subscribed
+	return total, subscribed, len(locations)
 }

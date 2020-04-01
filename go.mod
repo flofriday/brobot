@@ -10,5 +10,6 @@ require (
 	go.etcd.io/bbolt v1.3.4
 	golang.org/x/net v0.0.0-20200226121028-0de0cce0169b
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
+	golang.org/x/sys v0.0.0-20200327173247-9dae0f8f5775 // indirect
 	google.golang.org/api v0.11.0
 )

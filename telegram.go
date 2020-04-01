@@ -203,9 +203,9 @@ func helpCmd(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
 }
 
 func botinfoCmd(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
-	total, subscribed := loadUserStatistics()
+	total, subscribed, locations := loadUserStatistics()
 
-	message := fmt.Sprintf("*Statistics*\nUsers: %d\nSubscribed: %d", total, subscribed)
+	message := fmt.Sprintf("*Statistics*\nUsers: %d\nSubscribed: %d\nLocations: %d", total, subscribed, locations)
 	sendMessage(bot, update, message)
 }
 
