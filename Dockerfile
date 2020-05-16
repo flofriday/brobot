@@ -1,5 +1,5 @@
 # BUILD stage
-FROM golang:1.14-alpine
+FROM golang:1.14.3-alpine
 
 # Install git for go download
 RUN apk add git neofetch tzdata
@@ -19,7 +19,7 @@ RUN go mod download
 COPY . .
 
 # Compile the server
-RUN GO111MODULE=on CGO_ENABLED=0 go build
+RUN GO111MODULE=on CGO_ENABLED=0 go build -ldflags "-s -X 'main.buildDate=$(date)'"
 
 # Run the server
 CMD ["./brobot"]

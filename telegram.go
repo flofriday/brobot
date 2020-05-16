@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+var buildDate = "<__unknown__>"
+
 func sendWeather(bot *tgbotapi.BotAPI) {
 	// Get all users that are subscribed to the weather
 	users := loadSubscribedUsers()
@@ -239,7 +241,7 @@ func privacyCmd(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
 func botinfoCmd(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
 	total, subscribed, locations := loadUserStatistics()
 
-	message := fmt.Sprintf("*Statistics*\nUsers: %d\nSubscribed: %d\nLocations: %d", total, subscribed, locations)
+	message := fmt.Sprintf("*Statistics*\nUsers: %d\nSubscribed: %d\nLocations: %d\nBot compiled at: %s", total, subscribed, locations, buildDate)
 	sendMessage(bot, update, message)
 }
 
