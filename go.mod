@@ -8,8 +8,5 @@ require (
 	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
 	github.com/valyala/fastjson v1.5.1
 	go.etcd.io/bbolt v1.3.4
-	golang.org/x/net v0.0.0-20200226121028-0de0cce0169b
-	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
-	golang.org/x/sys v0.0.0-20200515095857-1151b9dac4a9 // indirect
-	google.golang.org/api v0.11.0
+	golang.org/x/sys v0.1.0 // indirect
 )
